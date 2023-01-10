@@ -9,6 +9,18 @@ import fs from 'fs';
 // 서버에서만 사용되며 node.js로 실행
 
 import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+
+export const buildFeedbackPath = () => {
+  return path.join(process.cwd(), 'data', 'feedback.json'); // 해당폴더에 절대 경로 생성
+};
+
+export const extractFeedback = (filePath) => {
+  const fileData = fs.readFileSync(filePath);
+  const data = JSON.parse(fileData);
+
+  return data;
+};
 
 const handler = (req, res) => {
   if (req.method === 'POST') {
@@ -16,20 +28,23 @@ const handler = (req, res) => {
     const feedbackText = req.body.text;
 
     const newFeedback = {
-      id: new Date().toISOString,
+      // id: new Date().toISOString,
+      id: uuidv4(),
       email,
       text: feedbackText,
     };
 
-    const filePath = path.join(process.cwd(), 'data', 'feedback.json'); // 해당폴더에 절대 경로 생성
-    const fileData = fs.readFileSync(filePath);
-    const data = JSON.parse(fileData);
+    // store that in a database or in a file
+    const filePath = buildFeedbackPath();
+    const data = extractFeedback(filePath);
 
     data.push(newFeedback);
     fs.writeFileSync(filePath, JSON.stringify(data));
     res.status(201).json({ message: 'Succecss!', feedback: newFeedback });
   } else {
-    res.status(200).json({ message: 'This works!' });
+    const filePath = buildFeedbackPath();
+    const data = extractFeedback(filePath);
+    res.status(200).json({ feedback: data });
   }
 };
 export default handler;
