@@ -92,11 +92,8 @@ export default function HomePage() {
         <ul className="flex flex-col items-center w-full max-w-sm px-3">
           {feedbackItems.map((item) => (
             <li key={item.id} className="w-full">
-              <div className="block px-4 pt-4 pb-4 mb-4 bg-white border border-gray-100 rounded shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                <p>{`"${item.text}"`}</p>
-                <p className="block text-sm font-bold text-gray-700">
-                  {item.email}
-                </p>
+              <div className="flex items-center justify-between px-6 pt-4 pb-4 mb-4 bg-white border border-gray-100 rounded shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                <p className="text-sm font-bold text-gray-700 ">{item.email}</p>
               </div>
             </li>
           ))}
