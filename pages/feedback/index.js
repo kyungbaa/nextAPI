@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { buildFeedbackPath, extractFeedback } from '../api/feedback';
+import { buildFeedbackPath, extractFeedback } from '../api/feedback/index';
 
 export default function FeedbackPage(props) {
   const [feedbackData, setFeedbackData] = useState();
@@ -7,7 +7,7 @@ export default function FeedbackPage(props) {
 
   const loadFeedbackHandler = (id) => {
     // /api/some-feedback-id
-    fetch(`/api/${id}`)
+    fetch(`/api/feedback/${id}`)
       .then((response) => response.json())
       .then((data) => setFeedbackData(data.feedback));
   };
